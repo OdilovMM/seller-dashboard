@@ -148,7 +148,7 @@ const Register = () => {
           </div>
           <div className="flex gap-4 text-black">
             <h4>Already have an account?</h4>
-            <Link to="/login" className="text-blue-600 pl-2">
+            <Link to="/" className="text-blue-600 pl-2">
               Login
             </Link>
           </div>

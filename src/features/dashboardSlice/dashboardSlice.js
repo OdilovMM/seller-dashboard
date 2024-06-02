@@ -43,7 +43,6 @@ export const dashboardSlice = createSlice({
     totalCustomers: 0,
     totalProducts: 0,
     recentOrders: [],
-    recentChats: [],
     totalDeactiveSellers: 0,
     totalPendingOrder: 0,
   },
@@ -60,7 +59,6 @@ export const dashboardSlice = createSlice({
         state.totalOrders = payload.totalOrders;
         state.totalCustomers = payload.totalCustomers;
         state.totalSellers = payload.totalSellers;
-        state.recentChats = payload.recentMessages;
         state.recentOrders = payload.recentOrders;
         state.totalDeactiveSellers = payload.totalDeactiveSellers;
       })
@@ -76,7 +74,6 @@ export const dashboardSlice = createSlice({
         state.totalSales = payload.totalSales;
         state.totalProducts = payload.totalProducts;
         state.totalOrders = payload.totalOrders;
-        state.recentChats = payload.recentMessages;
         state.recentOrders = payload.recentOrders;
         state.totalPendingOrder = payload.totalPendingOrder;
       })

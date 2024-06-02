@@ -7,7 +7,7 @@ import { seller_login } from "../features/authSlice/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loader, userInfo } = useSelector((state) => state.auth);
+  const { loader, userToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
@@ -30,12 +30,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (userToken) {
       navigate("/seller/dashboard");
-    } else {
-      return;
-    }
-  }, [userInfo, navigate, dispatch]);
+    } 
+  }, [userToken, navigate, dispatch]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#F7F8FC] flex items-center justify-center">

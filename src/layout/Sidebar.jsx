@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { allNav } from "../navigation/allNavigation";
 import { AiOutlineLogout } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout, resetUser } from "../features/authSlice/authSlice";
-import api from "../api/api";
 
 const Sidebar = ({ showBar, setShowBar }) => {
   const dispatch = useDispatch();

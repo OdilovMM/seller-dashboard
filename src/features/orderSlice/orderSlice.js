@@ -150,11 +150,10 @@ export const orderSlice = createSlice({
       .addCase(getSellerAllOrders.fulfilled, (state, { payload }) => {
         state.myOrders = payload.orders;
         state.totalOrders = payload.totalOrder;
-        // toast.success(payload.message);
+        state.isLoading = false;
       })
       .addCase(getSellerAllOrders.rejected, (state, { payload }) => {
         state.isLoading = false;
-        toast.error(payload.error);
       })
 
       .addCase(getSellerSingleOrderDetail.pending, (state, { payload }) => {

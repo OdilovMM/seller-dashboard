@@ -5,20 +5,24 @@ import { useEffect } from "react";
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const { userToken, token } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
-    if (userToken && token) {
+    if (userInfo) {
       navigate("/seller/dashboard");
     } else {
       return;
     }
-  }, [userToken, token, navigate]);
+  }, [userInfo, navigate]);
 
   return (
     <div className="w-full h-full">
       <div className="flex flex-row">
         <div className="w-6/12 h-full">
-          <img src={landing} className="w-full h-screen object-center opacity-80" alt="" />
+          <img
+            src={landing}
+            className="w-full h-screen object-center opacity-80"
+            alt=""
+          />
         </div>
         <div className="w-6/12 max-h-screen flex justify-center items-center bg-gray-200">
           <div className="w-[70%] mx-auto flex flex-col items-center justify-between gap-5 ">

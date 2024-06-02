@@ -40,8 +40,6 @@ export const seller_register = createAsyncThunk(
         withCredentials: true,
       });
 
-      console.log(data);
-
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
@@ -50,14 +48,7 @@ export const seller_register = createAsyncThunk(
   }
 );
 
-const decodeToken = (token) => {
-  if (token) {
-    const userInfo = jwtDecode(token);
-    return userInfo;
-  } else {
-    return "";
-  }
-};
+
 
 export const profileImageUpload = createAsyncThunk(
   "auth/uploadProfileImage",
@@ -103,6 +94,16 @@ export const logout = createAsyncThunk(
   }
 );
 
+
+const decodeToken = (token) => {
+  if (token) {
+    const userInfo = jwtDecode(token);
+    return userInfo;
+  } else {
+    return "";
+  }
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -146,9 +147,8 @@ export const authSlice = createSlice({
       })
       .addCase(seller_login.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.successMessage = payload.message;
-        const userInfo = decodeToken(payload.token);
-        state.userInfo = userInfo;
+        state.userToken = decodeToken(payload.token);
+        state.token = decodeToken(payload.token);
         toast.success(payload.message);
       })
       .addCase(seller_login.rejected, (state, { payload }) => {
@@ -156,10 +156,12 @@ export const authSlice = createSlice({
         toast.error(payload.error);
         console.log(payload.error);
       })
+      .addCase(getUserDetail.pending, (state, { payload }) => {
+        state.loader = true;
+      })
       .addCase(getUserDetail.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.userInfo = payload.userInfo;
-        console.log(payload.userInfo);
       })
       .addCase(profileImageUpload.pending, (state, { payload }) => {
         state.imgLoader = true;

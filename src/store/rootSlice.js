@@ -2,7 +2,6 @@ import authSlice from "../features/authSlice/authSlice";
 import sellerSlice from "../features/userSlice/sellerSlice";
 import bannerSlice from "../features/bannerSlice/bannerSlice";
 import categorySlice from "../features/categorySlice/categorySlice";
-import chatSlice from "../features/chatSlice/chatSlice";
 import dashboardSlice from "../features/dashboardSlice/dashboardSlice";
 import orderSlice from "../features/orderSlice/orderSlice";
 import paymentSlice from "../features/paymentSlice/paymentSlice";
@@ -13,7 +12,6 @@ const rootSlice = {
   seller: sellerSlice,
   category: categorySlice,
   product: productSlice,
-  chat: chatSlice,
   order: orderSlice,
   payment: paymentSlice,
   dashboard: dashboardSlice,
