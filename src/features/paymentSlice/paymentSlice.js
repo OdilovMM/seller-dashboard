@@ -90,34 +90,7 @@ export const paymentSlice = createSlice({
         state.loader = false;
         toast.error(payload.error);
       })
-      // getPaymentRequestFromSeller
-      .addCase(getPaymentRequestFromSeller.pending, (state, { payload }) => {
-        state.loader = true;
-      })
-      .addCase(getPaymentRequestFromSeller.fulfilled, (state, { payload }) => {
-        state.loader = false;
-        state.pendingWithdraws = payload.withdrawalRequest;
-      })
-      .addCase(getPaymentRequestFromSeller.rejected, (state, { payload }) => {
-        state.loader = false;
-        toast.error(payload.error);
-      })
-      // confirmPaymentRequest
-      .addCase(confirmPaymentRequest.pending, (state, { payload }) => {
-        state.loader = true;
-      })
-      .addCase(confirmPaymentRequest.fulfilled, (state, { payload }) => {
-        state.loader = false;
-        const temp = state.pendingWithdraws.filter(
-          (request) => request._id !== payload.payment._id
-        );
-        state.pendingWithdraws = temp;
-        toast.success(payload.message);
-      })
-      .addCase(confirmPaymentRequest.rejected, (state, { payload }) => {
-        state.loader = false;
-        toast.error(payload.error);
-      });
+      
   },
 });
 
