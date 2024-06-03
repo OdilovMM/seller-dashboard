@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 
 const MainLayout = () => {
- 
   const [showBar, setShowBar] = useState(false);
+
 
   return (
     <div className="bg-[#fff] w-full min-h-screen">

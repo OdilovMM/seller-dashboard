@@ -10,7 +10,7 @@ const Register = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loader, userToken, token } = useSelector((state) => state.auth);
+  const { loader, role, token } = useSelector((state) => state.auth);
 
   const [credentials, setCredentials] = useState({
     name: "",
@@ -33,12 +33,12 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (userToken && token) {
+    if (role === "seller" && token) {
       navigate("/seller/dashboard");
     } else {
       return;
     }
-  }, [userToken, navigate, dispatch, token]);
+  }, [role, navigate, dispatch, token]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#F7F8FC] flex items-center justify-center">

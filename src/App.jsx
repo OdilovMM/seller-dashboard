@@ -8,6 +8,7 @@ import {
   Orders,
   Payments,
   Profile,
+  LandingPage,
 } from "./pages";
 import { MainLayout } from "./layout";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -15,16 +16,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserDetail } from "./features/authSlice/authSlice";
 import { EditProduct, OrderDetails } from "./components";
+import ErrorDashboard from "./pages/ErrorDashboard";
 
 function App() {
   const dispatch = useDispatch();
-  const { userToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (userToken) {
+    if (token) {
       dispatch(getUserDetail());
     }
-  }, [dispatch, userToken]);
+  }, [dispatch, token]);
 
   return (
     <BrowserRouter>
@@ -47,7 +49,9 @@ function App() {
           <Route path="orders/details/:orderId" element={<OrderDetails />} />
           <Route path="payments" element={<Payments />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<ErrorDashboard />} />
         </Route>
+        <Route path="*" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
   );

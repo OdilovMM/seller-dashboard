@@ -48,8 +48,6 @@ export const seller_register = createAsyncThunk(
   }
 );
 
-
-
 export const profileImageUpload = createAsyncThunk(
   "auth/uploadProfileImage",
   async (image, { rejectWithValue, fulfillWithValue }) => {
@@ -94,11 +92,16 @@ export const logout = createAsyncThunk(
   }
 );
 
-
-const decodeToken = (token) => {
+const roleToken = (token) => {
   if (token) {
-    const userInfo = jwtDecode(token);
-    return userInfo;
+    const decodeToken = jwtDecode(token);
+    const expTime = new Date(decodeToken.exp * 1000);
+    if (new Date() > expTime) {
+      localStorage.removeItem("accessToken");
+      return "";
+    } else {
+      return decodeToken.role;
+    }
   } else {
     return "";
   }
@@ -112,7 +115,7 @@ export const authSlice = createSlice({
     loader: false,
     imgLoader: false,
     userInfo: "",
-    userToken: decodeToken(localStorage.getItem("accessToken")),
+    role: roleToken(localStorage.getItem("accessToken")),
     token: localStorage.getItem("accessToken"),
   },
   reducers: {
@@ -120,8 +123,8 @@ export const authSlice = createSlice({
       state.errorMessage = "";
     },
     resetUser: (state, _) => {
-      state.userToken = "";
       state.userInfo = "";
+      state.role = "";
       state.token = "";
     },
   },
@@ -133,7 +136,7 @@ export const authSlice = createSlice({
       .addCase(seller_register.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.token = payload.token;
-        state.userToken = decodeToken(payload.token);
+        state.role = roleToken(payload.token);
         toast.success(payload.message);
       })
       .addCase(seller_register.rejected, (state, { payload }) => {
@@ -147,13 +150,13 @@ export const authSlice = createSlice({
       })
       .addCase(seller_login.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.userToken = decodeToken(payload.token);
-        state.token = decodeToken(payload.token);
+        state.token = payload.token;
+        state.role = roleToken(payload.token);
         toast.success(payload.message);
       })
       .addCase(seller_login.rejected, (state, { payload }) => {
         state.loader = false;
-        toast.error(payload.error);
+        toast.error(payload.message);
         console.log(payload.error);
       })
       .addCase(getUserDetail.pending, (state, { payload }) => {
@@ -196,6 +199,6 @@ export const authSlice = createSlice({
       });
   },
 });
-
 export const { resetUser } = authSlice.actions;
+
 export default authSlice.reducer;

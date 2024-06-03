@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSellerDashboardInfo } from "../features/dashboardSlice/dashboardSlice";
 
 const Dashboard = () => {
+  console.log("Dashboard is working");
+
   const dispatch = useDispatch();
   const {
     totalSales,

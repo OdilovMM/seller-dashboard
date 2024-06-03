@@ -3,20 +3,22 @@ import { allNav } from "../navigation/allNavigation";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logout, resetUser } from "../features/authSlice/authSlice";
+import { useEffect } from "react";
 
 const Sidebar = ({ showBar, setShowBar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { pathname } = useLocation();
+
   const handleLogout = async () => {
     dispatch(logout());
     dispatch(resetUser());
-    navigate("/");
+
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
   };
-
-  const { pathname } = useLocation();
-
-
   return (
     <div>
       <div
