@@ -38,8 +38,6 @@ export const sendWithdrawalRequest = createAsyncThunk(
 );
 
 
-
-
 export const paymentSlice = createSlice({
   name: "payment",
   initialState: {
@@ -61,12 +59,12 @@ export const paymentSlice = createSlice({
       })
       .addCase(getSellerPaymentDetails.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.totalAmount = payload.totalAmount;
-        state.withdrawAmount = payload.withdrawAmount;
-        state.availableAmount = payload.availableAmount;
-        state.pendingAmount = payload.pendingAmount;
-        state.pendingWithdraws = payload.pendingWithdraws;
-        state.successWithdraws = payload.successWithdraws;
+        state.totalAmount = payload.data.totalAmount;
+        state.withdrawAmount = payload.data.withdrawAmount;
+        state.availableAmount = payload.data.availableAmount;
+        state.pendingAmount = payload.data.pendingAmount;
+        state.pendingWithdraws = payload.data.pendingWithdraws;
+        state.successWithdraws = payload.data.successWithdraws;
       })
       .addCase(getSellerPaymentDetails.rejected, (state, { payload }) => {
         state.loader = false;
@@ -79,18 +77,19 @@ export const paymentSlice = createSlice({
         state.loader = false;
         state.pendingWithdraws = [
           ...state.pendingWithdraws,
-          payload.withdrawal,
+          payload.data.withdrawal,
         ];
         state.availableAmount =
-          state.availableAmount - payload.withdrawal.amount;
-        state.pendingAmount = payload.withdrawal.amount;
-        toast.success(payload.message);
+          state.availableAmount - payload.data.withdrawal.amount;
+        state.pendingAmount = payload.data.withdrawal.amount;
+        toast.success(payload.status);
       })
       .addCase(sendWithdrawalRequest.rejected, (state, { payload }) => {
         state.loader = false;
         toast.error(payload.error);
       })
-      
+      // payment related
+     
   },
 });
 

@@ -8,6 +8,7 @@ import Discount from "./Discount";
 import Orders from "./Orders";
 import Payments from "./Payments";
 import Profile from "./Profile";
+import SuccessPage from "./SuccessPage";
 
 export {
   LandingPage,
@@ -19,5 +20,6 @@ export {
   AddProduct,
   Orders,
   Payments,
-  Profile
+  Profile,
+  SuccessPage,
 };

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Header = ({ showBar, setShowBar }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  
+
   return (
     <div className="fixed top-0 left-0 w-full py-5 px-2 lg:px-7 z-40 bg-[#fff] shadow-xl">
       <div className="ml-0 lg:ml-[260px] rounded-sm h-[64px]  flex justify-end items-center  px-5 transition-all">
@@ -16,21 +16,19 @@ const Header = ({ showBar, setShowBar }) => {
             <FaBars size={26} />
           </span>
         </div>
-       
 
         {/* notifications */}
 
         <div className="flex justify-center items-center gap-8 relative">
-          <div className="hidden md:block relative ">
-            
-          </div>
+          <div className="hidden md:block relative "></div>
           <div className="flex justify-center items-center">
             <div className="flex justify-center items-center gap-4">
-              <div className="flex justify-center items-center flex-col text-end">
-                <h1 className="text-md font-bold">{userInfo?.name}</h1>
-                <span className="text-[14px] uppercase w-full font-normal">
-                  {userInfo?.role}
-                </span>
+              <div className="flex justify-center items-end flex-col text-end">
+                <div className="flex justify-center items-center flex-row gap-4 text-end">
+                  <h1 className="text-md font-bold">{userInfo?.firstName}</h1>
+                  <h1 className="text-md font-bold">{userInfo?.lastName}</h1>
+                </div>
+                <span>{userInfo?.role}</span>
               </div>
               <div>
                 {userInfo && userInfo ? (

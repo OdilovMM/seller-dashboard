@@ -9,7 +9,7 @@ export const getAllCategories = createAsyncThunk(
   async ({ parPage, page, search }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(
-        `/categories/get-categories?page=${page}&&search=${search}&&parPage=${parPage}`,
+        `/category/get-all-categories?page=${page}&&search=${search}&&parPage=${parPage}`,
         {
           withCredentials: true,
         }

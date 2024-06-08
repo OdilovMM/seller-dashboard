@@ -7,10 +7,10 @@ export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post("/auth/seller-login", info, {
+      const { data } = await api.post("/seller/seller-login", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken", data.token);
+      localStorage.setItem("sellerToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -20,11 +20,26 @@ export const seller_login = createAsyncThunk(
 
 export const getUserDetail = createAsyncThunk(
   "auth/get_user_detail",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue, getState }) => {
     try {
-      const { data } = await api.get("/auth/get-user-detail", {
-        withCredentials: true,
-      });
+      const state = getState();
+      const token = state.auth.token;
+
+      if (!token) {
+        throw new Error("Token not found");
+      }
+
+      const { data } = await api.get(
+        "/seller/get-me-detail",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -36,11 +51,11 @@ export const seller_register = createAsyncThunk(
   "auth/seller_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post("/auth/seller-register", info, {
+      const { data } = await api.post("/seller/seller-register", info, {
         withCredentials: true,
       });
 
-      localStorage.setItem("accessToken", data.token);
+      localStorage.setItem("sellerToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -52,9 +67,13 @@ export const profileImageUpload = createAsyncThunk(
   "auth/uploadProfileImage",
   async (image, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.patch("/auth/upload-profile-image", image, {
-        withCredentials: true,
-      });
+      const { data } = await api.patch(
+        "/seller//upload-seller-profile-image",
+        image,
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -66,7 +85,7 @@ export const addProfileInfo = createAsyncThunk(
   "auth/addProfileInfo",
   async (detail, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.post("/auth/add-profile-address", detail, {
+      const { data } = await api.post("/seller/seller-add-address", detail, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -80,10 +99,10 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/auth/logout", {
+      const { data } = await api.get("/seller/seller-logout", {
         withCredentials: true,
       });
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("sellerToken");
 
       return fulfillWithValue(data);
     } catch (error) {
@@ -92,18 +111,12 @@ export const logout = createAsyncThunk(
   }
 );
 
-const roleToken = (token) => {
-  if (token) {
-    const decodeToken = jwtDecode(token);
-    const expTime = new Date(decodeToken.exp * 1000);
-    if (new Date() > expTime) {
-      localStorage.removeItem("accessToken");
-      return "";
-    } else {
-      return decodeToken.role;
-    }
-  } else {
-    return "";
+const decodeToken = (token) => {
+  try {
+    return jwtDecode(token);
+  } catch (error) {
+    console.error("Token decoding failed", error);
+    return null;
   }
 };
 
@@ -115,8 +128,8 @@ export const authSlice = createSlice({
     loader: false,
     imgLoader: false,
     userInfo: "",
-    role: roleToken(localStorage.getItem("accessToken")),
-    token: localStorage.getItem("accessToken"),
+    userId: decodeToken(localStorage.getItem("sellerToken")),
+    token: localStorage.getItem("sellerToken"),
   },
   reducers: {
     clearMessage: (state, _) => {
@@ -124,7 +137,7 @@ export const authSlice = createSlice({
     },
     resetUser: (state, _) => {
       state.userInfo = "";
-      state.role = "";
+      state.userId = "";
       state.token = "";
     },
   },
@@ -136,13 +149,13 @@ export const authSlice = createSlice({
       .addCase(seller_register.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.token = payload.token;
-        state.role = roleToken(payload.token);
-        toast.success(payload.message);
+        state.userId = decodeToken(payload.token);
+        console.log(payload);
+        toast.success(`Welcome ${payload.data.user.firstName}`);
       })
       .addCase(seller_register.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = payload.error;
-        toast.error(payload.error);
+        toast.error(payload.message);
       })
       //
       .addCase(seller_login.pending, (state, { payload }) => {
@@ -151,27 +164,27 @@ export const authSlice = createSlice({
       .addCase(seller_login.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.token = payload.token;
-        state.role = roleToken(payload.token);
-        toast.success(payload.message);
+        state.userId = decodeToken(payload.token);
+        toast.success(payload.status);
       })
       .addCase(seller_login.rejected, (state, { payload }) => {
         state.loader = false;
         toast.error(payload.message);
-        console.log(payload.error);
+        console.log(payload.message);
       })
       .addCase(getUserDetail.pending, (state, { payload }) => {
         state.loader = true;
       })
       .addCase(getUserDetail.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.userInfo = payload.userInfo;
+        state.userInfo = payload.data.seller;
       })
       .addCase(profileImageUpload.pending, (state, { payload }) => {
         state.imgLoader = true;
       })
       .addCase(profileImageUpload.fulfilled, (state, { payload }) => {
         state.imgLoader = false;
-        state.userInfo = payload.userInfo;
+        state.userInfo = payload.data.userInfo;
         toast.success(payload.message);
       })
       .addCase(profileImageUpload.rejected, (state, { payload }) => {
@@ -184,8 +197,8 @@ export const authSlice = createSlice({
       })
       .addCase(addProfileInfo.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.userInfo = payload.userInfo;
-        toast.success(payload.message);
+        state.userInfo = payload.data.sellerInfo;
+        toast.success(payload.data.status);
       })
       .addCase(addProfileInfo.rejected, (state, { payload }) => {
         state.loader = false;
@@ -195,7 +208,7 @@ export const authSlice = createSlice({
       .addCase(logout.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.userInfo = "";
-        toast.success(payload.message);
+        toast.success(payload.status);
       });
   },
 });

@@ -22,7 +22,7 @@ export const getProducts = createAsyncThunk(
   async ({ parPage, page, search }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(
-        `/products/get-products?page=${page}&&search=${search}&&parPage=${parPage}`,
+        `/products/get-all-my-products?page=${page}&&search=${search}&&parPage=${parPage}`,
         {
           withCredentials: true,
         }
@@ -39,10 +39,15 @@ export const getProducts = createAsyncThunk(
 export const getA_Product = createAsyncThunk(
   "product/getA_Product",
   async (productId, { rejectWithValue, fulfillWithValue }) => {
+    console.log(productId)
     try {
-      const { data } = await api.get(`/products/get-product/${productId}`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/products/get-product-to-edit/${productId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -94,6 +99,7 @@ export const productImageUpdate = createAsyncThunk(
 export const productSlice = createSlice({
   name: "product",
   initialState: {
+    success: false,
     successMessage: "",
     errorMessage: "",
     loader: false,
@@ -106,26 +112,28 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addProduct.pending, (state, { payload }) => {
+        state.success = false;
         state.loader = true;
       })
       .addCase(addProduct.fulfilled, (state, { payload }) => {
         state.loader = false;
+        state.success = true;
         state.successMessage = payload.message;
-        toast.success(payload.message);
-      
+        toast.success(payload.status);
       })
       .addCase(addProduct.rejected, (state, { payload }) => {
         state.loader = false;
+        state.success = false;
         state.errorMessage = payload.error;
         toast.error(payload.error);
         state.products = [...state.products, payload.category];
       })
       .addCase(getProducts.fulfilled, (state, { payload }) => {
-        state.totalProducts = payload.totalProducts;
-        state.products = payload.products;
+        state.totalProducts = payload.data.totalProducts;
+        state.products = payload.data.products;
       })
       .addCase(getA_Product.fulfilled, (state, { payload }) => {
-        state.product = payload.product;
+        state.product = payload.data.product;
       })
       .addCase(updateProduct.pending, (state, { payload }) => {
         state.loader = true;
@@ -135,7 +143,6 @@ export const productSlice = createSlice({
         state.successMessage = payload.message;
         state.product = payload.product;
         toast.success(payload.message);
-       
       })
       .addCase(updateProduct.rejected, (state, { payload }) => {
         state.loader = false;
@@ -145,15 +152,14 @@ export const productSlice = createSlice({
       })
       .addCase(productImageUpdate.pending, (state, { payload }) => {
         state.loader = false;
-        state.imageLoader = true
+        state.imageLoader = true;
       })
       .addCase(productImageUpdate.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.imageLoader = false
+        state.imageLoader = false;
         state.successMessage = payload.message;
         state.product = payload.product;
         toast.success(payload.message);
-      
       });
   },
 });

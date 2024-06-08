@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
-  const { loader } = useSelector((state) => state.product);
+  const { loader, success } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(
@@ -122,24 +122,28 @@ const AddProduct = () => {
     }
 
     dispatch(addProduct(formData));
-
-    setProduct({
-      name: "",
-      description: "",
-      discount: "",
-      price: "",
-      brand: "",
-      stock: "",
-      shopName: "",
-    });
-    setCategory("");
-    setImgFiles([]);
-    setImageShow([]);
   };
 
   useEffect(() => {
     setAllCategory(categories);
   }, [categories]);
+
+  useEffect(() => {
+    if (success) {
+      setProduct({
+        name: "",
+        description: "",
+        discount: "",
+        price: "",
+        brand: "",
+        stock: "",
+        shopName: "",
+      });
+      setCategory("");
+      setImgFiles([]);
+      setImageShow([]);
+    }
+  }, [success]);
 
   return (
     <div className="px-2 lg:px-7 pt-4">
@@ -239,7 +243,7 @@ const AddProduct = () => {
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="stock">Stock Quantity</label>
                 <input
-                  type="text"
+                  type="number"
                   name="stock"
                   id="stock"
                   placeholder="stock"

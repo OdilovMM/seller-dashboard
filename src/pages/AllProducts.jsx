@@ -6,12 +6,13 @@ import { MdAutoDelete } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../features/productSlice/productSlice";
-import { MdAddPhotoAlternate } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
-  const { products,loader, totalProducts } = useSelector((state) => state.product);
+  const { products, loader, totalProducts } = useSelector(
+    (state) => state.product
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [parPage, setParPage] = useState(5);
@@ -29,22 +30,20 @@ const AllProducts = () => {
 
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <h1 className="text-black mb-2">All Products</h1>
+      <h1 className="text-black mb-2 font-semibold text-2xl">
+        All Products {totalProducts}{" "}
+      </h1>
       {loader ? (
         <div className="flex justify-center items-center h-full">
           <MoonLoader />
         </div>
       ) : (
         <div className="w-full p-4 bg-[#3D464D] rounded-md">
-          {totalProducts <= parPage ? (
-            " "
-          ) : (
-            <Search
-              setParPage={setParPage}
-              setSearch={setSearch}
-              search={search}
-            />
-          )}
+          <Search
+            setParPage={setParPage}
+            setSearch={setSearch}
+            search={search}
+          />
 
           <div className="relative overflow-x-auto mt-4">
             <table className="w-full text-sm text-left text-[#d0d2d6]">
@@ -81,7 +80,7 @@ const AllProducts = () => {
               </thead>
 
               <tbody>
-                {products.map((d, i) => (
+                {products?.map((d, i) => (
                   <tr key={i}>
                     <td className="py-1 px-4 font-medium whitespace-nowrap">
                       {i + 1}
@@ -133,9 +132,6 @@ const AllProducts = () => {
                         <button>
                           <MdAutoDelete size={18} />
                         </button>
-                        <Link to={`/seller/dashboard/add-banner/${d._id}`}>
-                          <MdAddPhotoAlternate size={18} />
-                        </Link>
                       </div>
                     </td>
                   </tr>

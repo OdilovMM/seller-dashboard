@@ -51,7 +51,7 @@ const Profile = () => {
               {userInfo?.image ? (
                 <label
                   htmlFor="img"
-                  className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden"
+                  className="h-[150px] w-[200px] bg-slate-500 relative p-3 cursor-pointer overflow-hidden border-blue-50"
                 >
                   <img src={userInfo.image} alt="" />
                   {imgLoader && (
@@ -95,8 +95,12 @@ const Profile = () => {
                   <FaPenNib color="black" />
                 </span>
                 <div className="flex gap-2 ">
-                  <span className="font-bold">Name:</span>
-                  <span>{userInfo.name}</span>
+                  <span className="font-bold">First Name:</span>
+                  <span>{userInfo.firstName}</span>
+                </div>
+                <div className="flex gap-2 ">
+                  <span className="font-bold">Last Name:</span>
+                  <span>{userInfo.lastName}</span>
                 </div>
                 <div className="flex gap-2 ">
                   <span className="font-bold">Email:</span>
@@ -150,7 +154,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1">
-                    <label htmlFor="division">Division name</label>
+                    <label htmlFor="division">City</label>
                     <input
                       type="text"
                       name="division"
@@ -162,7 +166,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1">
-                    <label htmlFor="district">District name:</label>
+                    <label htmlFor="district">Address</label>
                     <input
                       type="text"
                       name="district"
@@ -174,7 +178,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1">
-                    <label htmlFor="subDistrict">Sub District</label>
+                    <label htmlFor="subDistrict">Contact Number</label>
                     <input
                       type="text"
                       name="subDistrict"
@@ -216,17 +220,17 @@ const Profile = () => {
                     <span>{userInfo.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2 ">
-                    <span className="font-bold">Division name:</span>
+                    <span className="font-bold">City</span>
                     <span>{userInfo.shopInfo?.division}</span>
                   </div>
                   <div className="flex gap-2 ">
-                    <span className="font-bold">District name:</span>
+                    <span className="font-bold">Address</span>
                     <span className="capitalize">
                       {userInfo.shopInfo?.district}
                     </span>
                   </div>
                   <div className="flex gap-2 ">
-                    <span className="font-bold">Sub District:</span>
+                    <span className="font-bold">Contact Number</span>
                     <span className="capitalize">
                       {userInfo.shopInfo?.subDistrict}
                     </span>

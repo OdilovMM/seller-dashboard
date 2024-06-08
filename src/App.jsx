@@ -9,30 +9,32 @@ import {
   Payments,
   Profile,
   LandingPage,
+  SuccessPage,
 } from "./pages";
 import { MainLayout } from "./layout";
-import ProtectedRoute from "./utils/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserDetail } from "./features/authSlice/authSlice";
 import { EditProduct, OrderDetails } from "./components";
 import ErrorDashboard from "./pages/ErrorDashboard";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token) {
+    if (userId) {
       dispatch(getUserDetail());
     }
-  }, [dispatch, token]);
+  }, [dispatch, userId]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/success?" element={<SuccessPage />} />
         <Route
           path="/seller/dashboard"
           element={

@@ -31,12 +31,15 @@ export const createStripeConnect = createAsyncThunk(
         withCredentials: true,
       });
 
+
       window.location.href = url;
     } catch (error) {
       console.log(error);
     }
   }
 );
+
+
 
 export const activatePaymentAccount = createAsyncThunk(
   "payment/activatePaymentAccount",
@@ -92,7 +95,7 @@ export const sellerSlice = createSlice({
       })
       .addCase(activatePaymentAccount.fulfilled, (state, { payload }) => {
         state.loader = false;
-        // toast.success(payload.message);
+        toast.success('Activated');
         state.successMessage = "success";
       })
       .addCase(activatePaymentAccount.rejected, (state, { payload }) => {

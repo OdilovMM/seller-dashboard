@@ -17,7 +17,7 @@ const Sidebar = ({ showBar, setShowBar }) => {
 
     setTimeout(() => {
       navigate("/");
-    }, 500);
+    }, 3500);
   };
   return (
     <div>

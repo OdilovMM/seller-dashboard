@@ -10,10 +10,11 @@ const Register = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loader, role, token } = useSelector((state) => state.auth);
+  const { loader, userInfo } = useSelector((state) => state.auth);
 
   const [credentials, setCredentials] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -28,17 +29,16 @@ const Register = () => {
 
   const handleSubmitData = (e) => {
     e.preventDefault();
-    console.log(credentials);
     dispatch(seller_register(credentials));
   };
 
   useEffect(() => {
-    if (role === "seller" && token) {
+    if (userInfo) {
       navigate("/seller/dashboard");
     } else {
       return;
     }
-  }, [role, navigate, dispatch, token]);
+  }, [userInfo, navigate, dispatch]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#F7F8FC] flex items-center justify-center">
@@ -48,7 +48,7 @@ const Register = () => {
         <form className="space-y-6" onSubmit={handleSubmitData}>
           <div>
             <label
-              htmlFor="name"
+              htmlFor="firstName"
               className="block text-sm font-bold font-mono uppercase text-gray-700"
             >
               Name
@@ -56,9 +56,28 @@ const Register = () => {
             <div className="mt-1">
               <input
                 type="text"
-                name="name"
-                autoComplete="name"
-                value={credentials.name}
+                name="firstName"
+                autoComplete="firstName"
+                value={credentials.firstName}
+                onChange={handleInput}
+                required
+                className="appearance-none block w-full px-3 text-black  py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-bold font-mono uppercase text-gray-700"
+            >
+              Name
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                name="lastName"
+                autoComplete="lastName"
+                value={credentials.lastName}
                 onChange={handleInput}
                 required
                 className="appearance-none block w-full px-3 text-black  py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"

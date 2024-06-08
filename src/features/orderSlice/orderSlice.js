@@ -74,8 +74,8 @@ export const orderSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getSellerAllOrders.fulfilled, (state, { payload }) => {
-        state.myOrders = payload.orders;
-        state.totalOrders = payload.totalOrder;
+        state.myOrders = payload.data.orders;
+        state.totalOrders = payload.data.totalOrder;
         state.isLoading = false;
       })
       .addCase(getSellerAllOrders.rejected, (state, { payload }) => {
@@ -86,7 +86,7 @@ export const orderSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getSellerSingleOrderDetail.fulfilled, (state, { payload }) => {
-        state.order = payload.order;
+        state.order = payload.data.order;
         // toast.success(payload.message);
       })
       .addCase(getSellerSingleOrderDetail.rejected, (state, { payload }) => {
@@ -98,7 +98,7 @@ export const orderSlice = createSlice({
       })
       .addCase(sellerUpdateOrderStatus.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        toast.success(payload.message);
+        toast.success(payload.status);
       })
       .addCase(sellerUpdateOrderStatus.rejected, (state, { payload }) => {
         state.isLoading = false;

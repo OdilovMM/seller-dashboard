@@ -100,7 +100,7 @@ const Payments = () => {
   return (
     <div className="px-2 md:px-7 py-5 ">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7 mb-4">
-        <div className="flex justify-between items-center shadow-xl p-5 border-b-[2px] bg-[#b1d6f2] rounded-md gap-3">
+        <div className="flex justify-between items-center shadow-lg p-5 border hover:shadow-2xl border-blue-600 cursor-pointer bg-[#fff] rounded-md gap-3">
           <div className="flex flex-col justify-start  items-start text-[#333]">
             <h2 className="text-3xl font-semibold">${totalAmount}</h2>
             <span className="text-md font-semibold">Total Sales</span>
@@ -109,7 +109,7 @@ const Payments = () => {
             <MdOutlineCurrencyExchange color="blue" size={45} />
           </div>
         </div>
-        <div className="flex justify-between items-center shadow-xl p-5 border-b-[2px] bg-[#b1d6f2] rounded-md gap-3">
+        <div className="flex justify-between items-center shadow-xl p-5 border hover:shadow-2xl border-blue-600 cursor-pointer bg-[#fff]  rounded-md gap-3">
           <div className="flex flex-col justify-start  items-start text-[#333]">
             <h2 className="text-3xl font-semibold">${availableAmount}</h2>
             <span className="text-md font-semibold">Available Amount</span>
@@ -118,7 +118,7 @@ const Payments = () => {
             <GiCash color="blue" size={45} />
           </div>
         </div>
-        <div className="flex justify-between items-center shadow-xl p-5 border-b-[2px] bg-[#b1d6f2] rounded-md gap-3">
+        <div className="flex justify-between items-center shadow-xl p-5 border hover:shadow-2xl border-blue-600 cursor-pointer bg-[#fff]  rounded-md gap-3">
           <div className="flex flex-col justify-start  items-start text-[#333]">
             <h2 className="text-3xl font-semibold">${withdrawAmount}</h2>
             <span className="text-md font-semibold">Withdrawal Amount</span>
@@ -127,7 +127,7 @@ const Payments = () => {
             <BiMoneyWithdraw color="blue" size={45} />
           </div>
         </div>
-        <div className="flex justify-between items-center shadow-xl p-5 border-b-[2px] bg-[#b1d6f2] rounded-md gap-3">
+        <div className="flex justify-between items-center shadow-xl p-5 border hover:shadow-2xl border-blue-600 cursor-pointer bg-[#fff]  rounded-md gap-3">
           <div className="flex flex-col justify-start  items-start text-[#333]">
             <h2 className="text-3xl font-semibold">${pendingAmount}</h2>
             <span className="text-md font-semibold">Pending Amount</span>

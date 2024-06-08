@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-
-
 export const getSellerDashboardInfo = createAsyncThunk(
   "dashboard/getSellerDashboardInfo",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/dashboard/get-seller-dashboard-info", {
+      const { data } = await api.get("/seller/get-seller-dashboard-info", {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -32,17 +30,17 @@ export const dashboardSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder      
+    builder
       .addCase(getSellerDashboardInfo.pending, (state, { payload }) => {
         state.loader = true;
       })
       .addCase(getSellerDashboardInfo.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.totalSales = payload.totalSales;
-        state.totalProducts = payload.totalProducts;
-        state.totalOrders = payload.totalOrders;
-        state.recentOrders = payload.recentOrders;
-        state.totalPendingOrder = payload.totalPendingOrder;
+        state.totalSales = payload.data.totalSales;
+        state.totalProducts = payload.data.totalProducts;
+        state.totalOrders = payload.data.totalOrders;
+        state.recentOrders = payload.data.recentOrders;
+        state.totalPendingOrder = payload.data.totalPendingOrder;
       })
       .addCase(getSellerDashboardInfo.rejected, (state, { payload }) => {
         state.loader = false;
