@@ -88,38 +88,38 @@ const AllProducts = () => {
                     <td className="py-1 px-4 font-medium whitespace-nowrap">
                       <img
                         className="w-[45px] h-[45px]"
-                        src={d.images[0]}
+                        src={d?.images[0]}
                         alt=""
                       />
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      {d?.name?.length > 7 ? d?.name?.slice(0, 6) : d.name}
+                      {d?.name?.length > 7 ? d?.name?.slice(0, 6) : d?.name}
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      {d.category}
+                      {d?.category}
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      {d.brand}
+                      {d?.brand}
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      $ {d.price}
+                      $ {d?.price}
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      {d.discount === 0 ? (
+                      {d?.discount === 0 ? (
                         <span>No Discount</span>
                       ) : (
-                        <span>% {d.discount}</span>
+                        <span>% {d?.discount}</span>
                       )}
                     </td>
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
-                      {d.stock}
+                      {d?.stock}
                     </td>
 
                     <td className="py-3 px-4 font-medium whitespace-nowrap">
                       <div className="flex flex-start items-center gap-4">
                         {/* edit product */}
                         <Link
-                          to={`/seller/dashboard/edit-product/${d._id}`}
+                          to={`/seller/dashboard/edit-product/${d?._id}`}
                           className="px-[6px] cursor-pointer"
                         >
                           <FaPenNib size={18} />

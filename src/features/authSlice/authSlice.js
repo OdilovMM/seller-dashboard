@@ -115,7 +115,7 @@ const decodeToken = (token) => {
   try {
     return jwtDecode(token);
   } catch (error) {
-    console.error("Token decoding failed", error);
+    // console.error("Token decoding failed", error);
     return null;
   }
 };
@@ -150,7 +150,6 @@ export const authSlice = createSlice({
         state.loader = false;
         state.token = payload.token;
         state.userId = decodeToken(payload.token);
-        console.log(payload);
         toast.success(`Welcome ${payload.data.user.firstName}`);
       })
       .addCase(seller_register.rejected, (state, { payload }) => {
@@ -170,7 +169,6 @@ export const authSlice = createSlice({
       .addCase(seller_login.rejected, (state, { payload }) => {
         state.loader = false;
         toast.error(payload.message);
-        console.log(payload.message);
       })
       .addCase(getUserDetail.pending, (state, { payload }) => {
         state.loader = true;

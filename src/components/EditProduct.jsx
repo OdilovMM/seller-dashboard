@@ -87,15 +87,15 @@ const EditProduct = () => {
 
   useEffect(() => {
     setProduct({
-      name: singleProduct.name,
-      description: singleProduct.description,
-      discount: singleProduct.discount,
-      price: singleProduct.price,
-      brand: singleProduct.brand,
-      stock: singleProduct.stock,
+      name: singleProduct?.name,
+      description: singleProduct?.description,
+      discount: singleProduct?.discount,
+      price: singleProduct?.price,
+      brand: singleProduct?.brand,
+      stock: singleProduct?.stock,
     });
-    setCategory(singleProduct.category);
-    setImageShow(singleProduct.images);
+    setCategory(singleProduct?.category);
+    setImageShow(singleProduct?.images);
   }, [singleProduct]);
 
   useEffect(() => {
@@ -107,12 +107,12 @@ const EditProduct = () => {
   const handleUpdateProduct = (e) => {
     e.preventDefault();
     const obj = {
-      name: product.name,
-      description: product.description,
-      discount: product.discount,
-      price: product.price,
-      brand: product.brand,
-      stock: product.stock,
+      name: product?.name,
+      description: product?.description,
+      discount: product?.discount,
+      price: product?.price,
+      brand: product?.brand,
+      stock: product?.stock,
       productId: productId,
     };
     dispatch(updateProduct(obj));

@@ -39,7 +39,6 @@ export const getProducts = createAsyncThunk(
 export const getA_Product = createAsyncThunk(
   "product/getA_Product",
   async (productId, { rejectWithValue, fulfillWithValue }) => {
-    console.log(productId)
     try {
       const { data } = await api.get(
         `/products/get-product-to-edit/${productId}`,
@@ -47,7 +46,6 @@ export const getA_Product = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -142,12 +140,12 @@ export const productSlice = createSlice({
         state.loader = false;
         state.successMessage = payload.message;
         state.product = payload.product;
-        toast.success(payload.message);
+        toast.success(payload.status);
       })
       .addCase(updateProduct.rejected, (state, { payload }) => {
         state.loader = false;
         state.errorMessage = payload.error;
-        toast.error(payload.error);
+        toast.error(payload.message);
         state.products = [...state.products, payload.category];
       })
       .addCase(productImageUpdate.pending, (state, { payload }) => {
@@ -159,7 +157,9 @@ export const productSlice = createSlice({
         state.imageLoader = false;
         state.successMessage = payload.message;
         state.product = payload.product;
-        toast.success(payload.message);
+        toast.success(payload.status);
+        console.log(payload)
+
       });
   },
 });

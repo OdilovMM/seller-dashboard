@@ -64,7 +64,7 @@ const Discount = () => {
                   >
                     <img
                       className="w-[45px] h-[45px]"
-                      src={`https://multi-vendor-shop.onrender.com/images/category/${d}.jpg`}
+                      src=""
                       alt=""
                     />
                   </td>
