@@ -30,11 +30,9 @@ export const createStripeConnect = createAsyncThunk(
       } = await api.get(`/payment/create-seller-stripe-account`, {
         withCredentials: true,
       });
-
-
       window.location.href = url;
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -56,7 +54,6 @@ export const activatePaymentAccount = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

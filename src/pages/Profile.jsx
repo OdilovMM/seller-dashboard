@@ -26,7 +26,6 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
       dispatch(profileImageUpload(formData));
-      console.log(formData);
     }
   };
 

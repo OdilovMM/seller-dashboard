@@ -11,7 +11,7 @@ export const addProduct = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response.data);
+      
       return rejectWithValue(error.response.data);
     }
   }
@@ -158,7 +158,6 @@ export const productSlice = createSlice({
         state.successMessage = payload.message;
         state.product = payload.product;
         toast.success(payload.status);
-        console.log(payload)
 
       });
   },
